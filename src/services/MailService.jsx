@@ -1,7 +1,12 @@
 import axios from 'axios'
 import authHeader from './auth-header';
-const MAIL_BASE_REST_API_URL = 'http://localhost:8080/mail/api/mail';
-//const MAIL_BASE_REST_API_URL2 = 'http://localhost:8080/api/auth/login';
+
+
+const apiUrl = process.env.REACT_APP_API_URL;
+
+const MAIL_BASE_REST_API_URL = `${apiUrl}/mail/api/mail`;
+const MAIL_BASE_REST_API_URL_depart = `${apiUrl}/mail/api/mail/depart`;
+//const MAIL_BASE_REST_API_URL_depart = 'http://localhost:8080/api/auth/login';
 //const token = localStorage.getItem(accessToken)
 
 class MailService {
@@ -9,6 +14,9 @@ class MailService {
     getAllMail() {
         return axios.get(MAIL_BASE_REST_API_URL, { headers: authHeader() });
     }
+    getAllDepart() {
+      return axios.get(MAIL_BASE_REST_API_URL_depart, { headers: authHeader() });
+  }
     //logout(){
       //  return axios.post(MAIL_BASE_REST_API_URL2)
     //}
@@ -30,4 +38,4 @@ class MailService {
 
 
 }
-export default new MailService();
+export default MailService();

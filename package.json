@@ -1,8 +1,8 @@
 {
-  "name": "mail-1.0",
+  "name": "mail-smg",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "http://10.126.204.249:8080/mail-smg/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
