@@ -2,7 +2,7 @@
   "name": "mail-smg",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://10.126.204.249:8080/mail-smg/",
+  "homepage": "http://localhost:8080/mail-smg/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
