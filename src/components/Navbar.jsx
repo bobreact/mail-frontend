@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import images from "../img/img.jpg";
+import images from "../img/img.jpeg";
 import { FcHome, FcList } from "react-icons/fc";
 import { RiSave3Fill } from "react-icons/ri";
 
@@ -31,17 +31,18 @@ export default function NavBar() {
       const response = await fetch(`${config}/mail/api/auth/logout`, init);
       //console.log(`response status is ${response.status}`);
       const mediaType = response.headers.get("content-type");
-      let data;
+     
       if (mediaType.includes("json")) {
-        data = await response.json();
+        await response.json();
       } else {
-        data = await response.text();
+         await response.text();
       }
       //console.log(data);
     })();
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("idUser");
+    localStorage.removeItem("structure");
     navigate("/index", { replace: true });
   };
   return (

@@ -1,3 +1,7 @@
 {
-    "API_BASE_URL":"http://localhost:8080"
+  "apiUrl": "https://api.example.com",
+  "features": {
+    "newDashboard": true,
+    "experimentalMode": false
+  }
 }

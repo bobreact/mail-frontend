@@ -39,15 +39,17 @@ const Login = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      //console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response?.data));
+      console.log(JSON.stringify(response));
       const token = response?.data?.token;
       //console.log(token)
       const refreshToken = response?.data?.refreshToken;
       const id = response?.data?.id;
+      const structure = response?.data.structure;
       localStorage.setItem("token", token);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("idUser", id);
+      localStorage.setItem("structure", structure);
       //const roles = response?.data?.roles;
       setUsername("");
       setPassword("");

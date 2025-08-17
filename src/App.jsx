@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MatTable from './components/MatTable'
 import Index from './components/Index';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
-import Logout from './components/Logout';
 import NewMail from './components/NewMail';
 import { Register } from './components/Register';
 import Depart from './components/Depart';
 import DepartTable from './components/DepartTable';
-import axios from 'axios';
 
 function App() {
 
@@ -20,7 +17,6 @@ function App() {
             <Routes>
                 <Route path='/' element={<Index />} />
                 <Route path='/login' element={<Login />} />
-                <Route path='/logout' element={<Logout />} />
                 <Route path='/*' element={<Index />} />
                 <Route path='/list' element={<MatTable />} />
                 <Route path='/new' element={<NewMail />} />

@@ -23,7 +23,8 @@ import authHeader from "../services/auth-header";
 
 function MatTable() {
   const config = process.env.REACT_APP_API_URL;
-
+  const structure = localStorage.getItem("structure");
+  console.log(structure);
   const [mail, setMail] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const defaultMaterialTheme = createTheme();
@@ -98,12 +99,19 @@ function MatTable() {
       window.scrollTo(0, 0);
     }
   }
+
   useEffect(() => {
-    axios
-      .get(`${config}/mail/api/mail`, { headers: authHeader() })
+    const response = axios
+      .get(`${config}/mail/api/mail`, {
+        headers: authHeader(),
+
+        params: {
+          structure: structure,
+        },
+      })
       .then((response) => {
         setMail(response.data);
-        //console.log(response.data)
+        console.log(response.data);
       })
       .catch((Error) => {
         if (Error.response?.status === 403) {
@@ -139,7 +147,8 @@ function MatTable() {
         <Button
           style={{ height: 25, mt: 4, color: "blue" }}
           onFocus={() => setFichier(rowData.file)}
-          onClick={download}>
+          onClick={download}
+        >
           <CloudDownloadIcon />
         </Button>
       ),
@@ -155,7 +164,8 @@ function MatTable() {
               ? "errmsg uppercase text-center bg-red-500 text-white font-bold px-4 py-2"
               : "offscreen"
           }
-          aria-live="assertive">
+          aria-live="assertive"
+        >
           {errMsg}
         </p>
         <div>

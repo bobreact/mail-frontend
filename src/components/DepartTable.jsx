@@ -1,6 +1,5 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import MaterialTable from "material-table";
-import MailService from "../services/MailService";
 import { ThemeProvider, createTheme } from "@mui/material";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -29,6 +28,7 @@ function DepartTable() {
   const [fichier, setFichier] = useState("");
 
   const config = process.env.REACT_APP_API_URL;
+  const structure = localStorage.getItem("structure");
 
   const token = localStorage.getItem("token");
 
@@ -101,8 +101,10 @@ function DepartTable() {
   const URL2 = `${config}/mail/api/mail/depart`;
   console.log(URL2);
   useEffect(() => {
-    const response = axios
-      .get(URL2, { headers: authHeader() }, { cache: "force-cache" })
+    axios
+      .get(URL2, { headers: authHeader(),  params: {
+          structure: structure,
+        }, }, { cache: "force-cache" })
       .then((response) => {
         setMail(response.data);
         console.log(response.data);
@@ -138,7 +140,8 @@ function DepartTable() {
         <Button
           style={{ height: 25, mt: 4, color: "blue" }}
           onFocus={() => setFichier(rowData.file)}
-          onClick={download}>
+          onClick={download}
+        >
           <CloudDownloadIcon />
         </Button>
       ),
@@ -154,7 +157,8 @@ function DepartTable() {
               ? "errmsg uppercase text-center bg-red-500 text-white font-bold px-4 py-2"
               : "offscreen"
           }
-          aria-live="assertive">
+          aria-live="assertive"
+        >
           {errMsg}
         </p>
         <div>

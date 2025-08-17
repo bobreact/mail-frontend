@@ -18,6 +18,9 @@ export const Register = () => {
   const [verifyPassword, setVerifyPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
+  const [structure, setStructure] = useState("");
+  const [structures, setStructures] = useState([]);
+
   const REGISTER_URL = `${config}/mail/api/auth/register`;
 
   useEffect(() => {
@@ -29,7 +32,16 @@ export const Register = () => {
   }, []);
   useEffect(() => {
     setErrMsg("");
-  }, [username, email, password, verifyPassword]);
+  }, [username, email, password, verifyPassword, structure]);
+
+ useEffect(() => {
+    axios
+      .get(`${config}/mail/api/auth/structures`, { cache: "force-cache" })
+      .then((response) => {
+        setStructures(response.data);
+        console.log(response.data);
+      });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,10 +56,15 @@ export const Register = () => {
       return;
     }
 
+    if (structure === 0) {
+      setErrMsg("selectionner une structure");
+      return;
+    }
+
     try {
       await axios.post(
         REGISTER_URL,
-        JSON.stringify({ username, email, password }),
+        JSON.stringify({ username, email, password, structure }),
         {
           headers: { "Content-Type": "application/json" },
         }
@@ -60,7 +77,7 @@ export const Register = () => {
       setPassword("");
       navigate("/login", { replace: true });
     } catch (err) {
-      //console.log(err);
+      console.log(err);
       if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.message) {
@@ -154,6 +171,26 @@ export const Register = () => {
                 onChange={(e) => setVerifyPassword(e.target.value)}
               />
             </div>
+
+  <div className="mb-2">
+              <label className="block text-sm font-semibold text-gray-800">
+                Structure
+              </label>
+              <select
+                type="number"
+                placeholder="Projet"
+                className="block w-full px-4 py-2 mt-0 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={(e) => setStructure(e.target.value)}>
+                <option>-- Selectionner --</option>
+                {structures.map((item, itemIndex) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <option value={item.id} key={itemIndex}>
+                    {item.denomination}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="mt-6">
               <button
                 className="shadow-2xl w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"

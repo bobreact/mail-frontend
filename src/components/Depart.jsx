@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-//import { data } from "autoprefixer";
+import { data } from "autoprefixer";
 
 export default function Depart() {
-  //const config = process.env.REACT_APP_API_URL;
+  const config = process.env.REACT_APP_API_URL;
   const userRef = useRef();
   const errRef = useRef();
   const token = localStorage.getItem("token");
+  const structure = localStorage.getItem("structure");
   const navigate = useNavigate();
   const [numDepart, setNumDepart] = useState("");
   const [dateDepart, setDateDepart] = useState("");
@@ -24,22 +25,7 @@ export default function Depart() {
   const [objetError, setObjetError] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const [apiBaseUrl, setApiBaseUrl] = useState('');
-  const [data, setData] = useState(null);
-
-
-  useEffect(() => {
-    // Fetch the config.json to get the API base URL
-    fetch('/config.json')
-      .then((response) => response.json())
-      .then((config) => {
-        setApiBaseUrl(config.API_BASE_URL);
-        
-      })
-
-  }, [apiBaseUrl]);
-
-  const url = `${apiBaseUrl}/mail/api/mail/depart/upload`;
+  const url = `${config}/mail/api/mail/depart/upload`;
   console.log(url);
 
   useEffect(() => {
@@ -83,7 +69,7 @@ export default function Depart() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const mail = { numDepart, dateDepart, destinataire, objet };
+    const mail = { numDepart, dateDepart, destinataire, objet, structure };
     //console.log(mail)
     const FormData = require("form-data");
     const formData = new FormData();

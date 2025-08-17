@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-//import authHeader from "../services/auth-header";
 
 export default function NewMail() {
   const userRef = useRef();
@@ -9,6 +8,7 @@ export default function NewMail() {
   const config = process.env.REACT_APP_API_URL;
 
   const token = localStorage.getItem("token");
+  const structure = localStorage.getItem("structure");
   const navigate = useNavigate();
 
   const [numArrive, setNumArrive] = useState("");
@@ -88,6 +88,7 @@ export default function NewMail() {
       expediteur,
       objet,
       numReponse,
+      structure
     };
     const url = `${config}/mail/api/mail/upload`;
     //console.log(files)
