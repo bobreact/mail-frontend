@@ -8,6 +8,9 @@ import NewMail from './components/NewMail';
 import { Register } from './components/Register';
 import Depart from './components/Depart';
 import DepartTable from './components/DepartTable';
+import Store from './components/Store';
+import { Provider } from "react-redux";
+
 
 function App() {
 
@@ -25,6 +28,7 @@ function App() {
                 <Route path='/departTable' element={<DepartTable />} />
             </Routes>
             <Footer />
+            
         </div>
     );
 }

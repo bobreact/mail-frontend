@@ -19,18 +19,21 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import axios from "axios";
 import { Button } from "@material-ui/core";
-import authHeader from "../services/auth-header";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { DepartList } from "../components/slices/DepartSlice";
+
 
 function DepartTable() {
-  const [mail, setMail] = useState([]);
+  //const [mail, setMail] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const defaultMaterialTheme = createTheme();
   const [fichier, setFichier] = useState("");
+  const dispatch = useDispatch();
 
   const config = process.env.REACT_APP_API_URL;
-  const structure = localStorage.getItem("structure");
-
-  const token = localStorage.getItem("token");
+  const token = useSelector((state) => state.token.token);
+  const structure = useSelector((state) => state.structure.structure);
 
   const URL = `${config}/mail/api/mail/depart/download/${fichier}`;
   console.log("url:", URL);
@@ -98,15 +101,22 @@ function DepartTable() {
       window.scrollTo(0, 0);
     }
   }
-  const URL2 = `${config}/mail/api/mail/depart`;
-  console.log(URL2);
-  useEffect(() => {
-    axios
-      .get(URL2, { headers: authHeader(),  params: {
+
+
+ useEffect(() => {
+    const response = axios
+      .get(`${config}/mail/api/mail/depart`, {
+          headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`},
+
+        params: {
           structure: structure,
-        }, }, { cache: "force-cache" })
+        },
+      })
       .then((response) => {
-        setMail(response.data);
+        dispatch(DepartList(response.data));
+        //setMail(response.data);
         console.log(response.data);
       })
       .catch((Error) => {
@@ -126,7 +136,9 @@ function DepartTable() {
         }
       });
   }, []);
-
+//var a = useSelector((state) => state.depart.mailDeparts);
+const mails = structuredClone(useSelector((state) => state.depart.mailDeparts));
+console.log("mail", mails);
   const columns = [
     { title: "Numéro", field: "numDepart", align: "center" },
     { title: "Date Départ", field: "dateDepart", align: "center" },
@@ -150,7 +162,7 @@ function DepartTable() {
 
   return (
     <>
-      <div className="bg-slate-600 mx-2 my-4 h-full">
+      <div className="bg-slate-600 mx-0 my-0 h-full">
         <p
           className={
             errMsg
@@ -167,7 +179,7 @@ function DepartTable() {
               <MaterialTable
                 icons={tableIcons}
                 columns={columns}
-                data={mail}
+                data={mails}
                 title=""
                 px
                 localization={{
@@ -190,7 +202,7 @@ function DepartTable() {
                   paging: true,
                   paginationType: "stepped",
                   pageSize: 10,
-                  pageSizeOptions: [5, 10, 15, 20, mail.length],
+                  pageSizeOptions: [5, 10, 15, 20, mails?.length ?? 0],
                   exportButton: true,
                   headerStyle: {
                     background: "#838996",

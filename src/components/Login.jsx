@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Structure } from "./slices/StructureSlice";
+import { Token } from "./slices/TokenSlice";
+import { User } from "./slices/UserSlice";
 
 const picture = new URL("../img/signin.jpg", import.meta.url).href;
 
@@ -12,6 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const config = process.env.REACT_APP_API_URL;
+  const dispatch = useDispatch();
 
   const LOGIN_URL = `${config}/mail/api/auth/login`;
   console.log("url", LOGIN_URL);
@@ -42,14 +47,12 @@ const Login = () => {
       console.log(JSON.stringify(response?.data));
       console.log(JSON.stringify(response));
       const token = response?.data?.token;
-      //console.log(token)
       const refreshToken = response?.data?.refreshToken;
-      const id = response?.data?.id;
+      const user = response?.data?.id;
       const structure = response?.data.structure;
-      localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("idUser", id);
-      localStorage.setItem("structure", structure);
+      dispatch(Structure(structure));
+      dispatch(Token(token));
+      dispatch(User(user));
       //const roles = response?.data?.roles;
       setUsername("");
       setPassword("");

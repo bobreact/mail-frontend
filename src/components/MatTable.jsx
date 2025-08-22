@@ -19,18 +19,17 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import axios from "axios";
 import { Button } from "@material-ui/core";
-import authHeader from "../services/auth-header";
+import { useDispatch, useSelector } from "react-redux";
+import { ArriveList } from "../components/slices/ArriveSlice";
 
 function MatTable() {
   const config = process.env.REACT_APP_API_URL;
-  const structure = localStorage.getItem("structure");
-  console.log(structure);
-  const [mail, setMail] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const defaultMaterialTheme = createTheme();
   const [fichier, setFichier] = useState("");
-
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.token.token);
+  const structure = useSelector((state) => state.structure.structure);
   //console.log(fichier)
   //console.log(token)
 
@@ -103,14 +102,19 @@ function MatTable() {
   useEffect(() => {
     const response = axios
       .get(`${config}/mail/api/mail`, {
-        headers: authHeader(),
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
 
         params: {
           structure: structure,
         },
       })
       .then((response) => {
-        setMail(response.data);
+        //setMail(response.data);
+        dispatch(ArriveList(response.data));
+
         console.log(response.data);
       })
       .catch((Error) => {
@@ -130,6 +134,9 @@ function MatTable() {
         }
       });
   }, []);
+  const mails = structuredClone(
+    useSelector((state) => state.arrive.mailArrives)
+  );
 
   const columns = [
     { title: "Numéro", field: "numArrive", align: "center" },
@@ -157,7 +164,7 @@ function MatTable() {
 
   return (
     <>
-      <div className="bg-slate-600 mx-2 my-4 h-full">
+      <div className="bg-slate-600 mx-2 my-0 h-full">
         <p
           className={
             errMsg
@@ -174,7 +181,7 @@ function MatTable() {
               <MaterialTable
                 icons={tableIcons}
                 columns={columns}
-                data={mail}
+                data={mails}
                 title=""
                 px
                 localization={{
@@ -197,7 +204,7 @@ function MatTable() {
                   paging: true,
                   paginationType: "stepped",
                   pageSize: 10,
-                  pageSizeOptions: [5, 10, 15, 20, mail.length],
+                  pageSizeOptions: [5, 10, 15, 20, mails?.length ?? 0],
                   exportButton: true,
                   headerStyle: {
                     background: "#838996",

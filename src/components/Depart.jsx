@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { data } from "autoprefixer";
-
+import DepartTable from "./DepartTable";
+import { useDispatch, useSelector } from "react-redux";
+import { AddNewMailDepart } from "./slices/DepartSlice";
 export default function Depart() {
   const config = process.env.REACT_APP_API_URL;
   const userRef = useRef();
   const errRef = useRef();
-  const token = localStorage.getItem("token");
-  const structure = localStorage.getItem("structure");
+
+  const structure = useSelector((state) => state.structure.structure);
+  const token = useSelector((state) => state.token.token);
+  console.log('structure', structure);
+  console.log('token', token);
   const navigate = useNavigate();
   const [numDepart, setNumDepart] = useState("");
   const [dateDepart, setDateDepart] = useState("");
@@ -17,6 +21,7 @@ export default function Depart() {
 
   const [files, setFiles] = useState([]);
   const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const [numDepartError, setNumDepartError] = useState("");
   const [dateDepartError, setDateDepartError] = useState("");
@@ -93,6 +98,7 @@ export default function Depart() {
       });
       //console.log('response', response);
       setSuccess(true);
+      dispatch(AddNewMailDepart(mail));
       window.scrollTo(0, 0);
       //alert('Mail ajouté avec succés')
       //navigate('/list', { replace: true });
@@ -141,10 +147,7 @@ export default function Depart() {
   };
   return (
     <div className="bg-slate-600 relative flex flex-col justify-center min-h-min overflow-clip">
-      <div className="mt-4 mb-4 w-full p-6 mx-auto bg-white rounded-md shadow-xl lg:max-w-xl">
-        <h5 className="text-xl font-semibold text-center text-purple-700 uppercase">
-          Nouveau courrier Depart
-        </h5>
+      <div className=" w-full pt-2 p-6 my-1 mx-auto bg-white rounded-md shadow-xl">
         <p
           ref={errRef}
           className={
@@ -155,6 +158,10 @@ export default function Depart() {
           aria-live="assertive">
           {errMsg}
         </p>
+        <h5 className="h-10 border-spacing-2 rounded-full border-2 border-slate-500 bg-green-500 pl-2 pt-1.5 text-start hover:text-center text-base font-semibold uppercase text-white">
+          Nouveau courrier Depart
+        </h5>
+        
         {success ? (
           <div
             className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 duration:2000"
@@ -166,7 +173,7 @@ export default function Depart() {
         ) : (
           ""
         )}
-        <form className="mt-2" onSubmit={handleSubmit}>
+        <form className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-2" onSubmit={handleSubmit}>
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
               Numéro départ
@@ -174,6 +181,7 @@ export default function Depart() {
             <input
               className="font-semibold h-8 block w-full px-4 py-0 mt-0 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               type="number"
+              min="1"
               required
               ref={userRef}
               autoComplete="off"
@@ -260,17 +268,20 @@ export default function Depart() {
                                     file:rounded-full file:border-0
                                     file:text-sm file:font-semibold
                                     file:bg-violet-50 file:text-violet-700
-                                    hover:file:bg-violet-100 mt-2"
+                                    hover:file:bg-violet-100 mt-7"
             />
           </div>
           <div className="mt-2">
             <button
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+              className="w-full px-4 py-2 mt-4 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
               type="submit">
               Enregistrer
             </button>
           </div>
         </form>
+      </div>
+      <div>
+        <DepartTable />
       </div>
     </div>
   );

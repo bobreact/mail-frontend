@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import MatTable from "./MatTable";
+import { useSelector, useDispatch } from "react-redux";
+import { AddNewMailArrive } from "./slices/ArriveSlice";
 
 export default function NewMail() {
   const userRef = useRef();
   const errRef = useRef();
   const config = process.env.REACT_APP_API_URL;
-
-  const token = localStorage.getItem("token");
-  const structure = localStorage.getItem("structure");
+  const token = useSelector((state) => state.token.token);
+  const structure = useSelector((state) => state.structure.structure);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [numArrive, setNumArrive] = useState("");
   const [dateArrivee, setDateArrivee] = useState("");
   const [numDepartExp, setNumDepartExp] = useState("");
@@ -88,7 +90,7 @@ export default function NewMail() {
       expediteur,
       objet,
       numReponse,
-      structure
+      structure,
     };
     const url = `${config}/mail/api/mail/upload`;
     //console.log(files)
@@ -115,6 +117,8 @@ export default function NewMail() {
       });
       //console.log('response', response);
       setSuccess(true);
+      dispatch(AddNewMailArrive(mail));
+
       window.scrollTo(0, 0);
       //alert('Mail ajouté avec succés')
       //navigate('/list', { replace: true });
@@ -172,10 +176,7 @@ export default function NewMail() {
   };
   return (
     <div className="bg-slate-600 relative flex flex-col justify-center min-h-min overflow-clip">
-      <div className="mt-4 mb-4 w-full p-6 mx-auto bg-white rounded-md shadow-xl lg:max-w-xl">
-        <h5 className="text-xl font-semibold text-center text-purple-700 uppercase">
-          Nouveau courrier arrivé
-        </h5>
+      <div className=" w-full pt-2 p-6 my-1 mx-auto bg-white rounded-md shadow-xl">
         <p
           ref={errRef}
           className={
@@ -183,13 +184,19 @@ export default function NewMail() {
               ? "errmsg uppercase text-center bg-red-500 text-white px-4 py-2"
               : "offscreen"
           }
-          aria-live="assertive">
+          aria-live="assertive"
+        >
           {errMsg}
         </p>
+        <h5 className="h-10 border-spacing-2 border-2 border-slate-500 bg-green-500 pl-2 pt-1.5 text-start hover:text-center text-base font-semibold uppercase text-white">
+          Nouveau courrier arrive
+        </h5>
+
         {success ? (
           <div
             className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 duration:2000"
-            role="alert">
+            role="alert"
+          >
             <p className="font-medium text-center text-lg">
               Courrier enregistré avec succès
             </p>
@@ -197,7 +204,10 @@ export default function NewMail() {
         ) : (
           ""
         )}
-        <form className="mt-2" onSubmit={handleSubmit}>
+        <form
+          className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-2"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
               Numéro
@@ -205,6 +215,7 @@ export default function NewMail() {
             <input
               className="font-semibold h-8 block w-full px-4 py-0 mt-0 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               type="number"
+              min="1"
               required
               ref={userRef}
               autoComplete="off"
@@ -245,6 +256,7 @@ export default function NewMail() {
             </label>
             <input
               type="number"
+              min="1"
               required
               className="font-semibold h-8 block w-full px-4 py-2 mt-0 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               placeholder=""
@@ -322,6 +334,7 @@ export default function NewMail() {
             </label>
             <input
               type="number"
+              min="1"
               className="font-semibold h-8 block w-full px-4 py-2 mt-0 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               placeholder=""
               onChange={(e) => setNumReponse(e.target.value)}
@@ -339,17 +352,21 @@ export default function NewMail() {
                                     file:rounded-full file:border-0
                                     file:text-sm file:font-semibold
                                     file:bg-violet-50 file:text-violet-700
-                                    hover:file:bg-violet-100 mt-2"
+                                    hover:file:bg-violet-100 mt-5"
             />
           </div>
           <div className="mt-2">
             <button
               className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
-              type="submit">
+              type="submit"
+            >
               Enregistrer
             </button>
           </div>
         </form>
+      </div>
+      <div>
+        <MatTable />
       </div>
     </div>
   );

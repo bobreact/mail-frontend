@@ -3,15 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import images from "../img/img.jpeg";
 import { FcHome, FcList } from "react-icons/fc";
 import { RiSave3Fill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { resetStore } from "./actions";
 
 export default function NavBar() {
   const config = process.env.REACT_APP_API_URL;
-
+  const dispatch = useDispatch();
   const [navbar, setNavbar] = useState(false);
   const navigate = useNavigate();
-  const id = localStorage.getItem("idUser");
-  //console.log(id)
-
+  const user = useSelector((state) => state.user.user);
   const handleSubmit = (e) => {
     navigate("/login", { replace: true });
   };
@@ -20,7 +20,7 @@ export default function NavBar() {
       const headers = new Headers();
       headers.append("content-type", "application/json");
 
-      const body = JSON.stringify({ userId: id });
+      const body = JSON.stringify({ userId: user });
 
       const init = {
         method: "POST",
@@ -29,20 +29,16 @@ export default function NavBar() {
       };
 
       const response = await fetch(`${config}/mail/api/auth/logout`, init);
-      //console.log(`response status is ${response.status}`);
       const mediaType = response.headers.get("content-type");
-     
+
       if (mediaType.includes("json")) {
         await response.json();
       } else {
-         await response.text();
+        await response.text();
       }
-      //console.log(data);
     })();
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("idUser");
-    localStorage.removeItem("structure");
+
+    dispatch(resetStore());
     navigate("/index", { replace: true });
   };
   return (
@@ -63,13 +59,15 @@ export default function NavBar() {
             <div className="md:hidden">
               <button
                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
-                onClick={() => setNavbar(!navbar)}>
+                onClick={() => setNavbar(!navbar)}
+              >
                 {navbar ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-6 h-6 text-white"
                     viewBox="0 0 20 20"
-                    fill="currentColor">
+                    fill="currentColor"
+                  >
                     <path
                       fillRule="evenodd"
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -83,7 +81,8 @@ export default function NavBar() {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}>
+                    strokeWidth={2}
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -99,7 +98,8 @@ export default function NavBar() {
           <div
             className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
               navbar ? "block" : "hidden"
-            }`}>
+            }`}
+          >
             <ul className="items-center justify-center space-y-6 md:flex md:space-x-6 md:space-y-0">
               <li className="text-white hover:text-indigo-200 text-sm font-medium">
                 <Link to="/" className="flex">
@@ -134,12 +134,14 @@ export default function NavBar() {
             <div className="mt-3 space-y-2 md:hidden">
               <Link
                 to="/login"
-                className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800">
+                className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+              >
                 Sign in
               </Link>
               <button
                 onClick={(e) => handleClick(e)}
-                className=" inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100">
+                className=" inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
+              >
                 Signout
               </button>
             </div>
@@ -149,12 +151,14 @@ export default function NavBar() {
         <div className="hidden space-x-2 md:flex ml-2">
           <button
             onClick={(e) => handleSubmit(e)}
-            className="w-24 px-2 py-1 text-white bg-gray-400 rounded-md shadow hover:bg-gray-600">
+            className="w-24 px-2 py-1 text-white bg-gray-400 rounded-md shadow hover:bg-gray-600"
+          >
             Sign in
           </button>
           <button
             onClick={(e) => handleClick(e)}
-            className="w-24 px-2 py-1 text-gray-800 bg-white rounded-md shadow hover:bg-gray-300">
+            className="w-24 px-2 py-1 text-gray-800 bg-white rounded-md shadow hover:bg-gray-300"
+          >
             Signout
           </button>
         </div>
