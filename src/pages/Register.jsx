@@ -22,16 +22,17 @@ const dispatch = useDispatch();
 
   const [structure, setStructure] = useState("");
   const [structures, setStructures] = useState([]);
-  useEffect(() => {
-      axios
-        .get(`/configuration.json`, { cache: "force-cache" })
-        .then((response) => {
-          dispatch(Url(response.data.API_URL));
-         // console.log(response.data.API_URL);
-        });
-    }, []);
-   
-  const config = useSelector((state) => state.url.url);
+
+useEffect(() => {
+    axios
+      .get(`/configuration.json`, { cache: "force-cache" })
+      .then((response) => {
+        dispatch(Url(response.data.API_URL));
+       // console.log(response.data.API_URL);
+      });
+  }, []);
+ 
+const config = useSelector((state) => state.url.url);
 
   const REGISTER_URL = `${config}/mail/api/auth/register`;
 
