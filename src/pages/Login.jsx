@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Structure } from "./slices/StructureSlice";
-import { Token } from "./slices/TokenSlice";
-import { User } from "./slices/UserSlice";
+import { Structure } from "../components/slices/StructureSlice";
+import { Token } from "../components/slices/TokenSlice";
+import { User } from "../components/slices/UserSlice";
 
 const picture = new URL("../img/signin.jpg", import.meta.url).href;
 

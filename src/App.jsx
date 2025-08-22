@@ -1,15 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
-import MatTable from './components/MatTable'
+import ArrivTable from './components/ArriveTable'
 import Index from './components/Index';
 import Footer from './components/Footer';
-import Navbar from './components/Navbar';
-import Login from './components/Login';
-import NewMail from './components/NewMail';
-import { Register } from './components/Register';
-import Depart from './components/Depart';
+import Navbar from './pages/Navbar';
+import Login from './pages/Login';
+import { Register } from './pages/Register';
+import Depart from './pages/Depart';
 import DepartTable from './components/DepartTable';
-import Store from './components/Store';
-import { Provider } from "react-redux";
+import Arrive from './pages/Arrive';
 
 
 function App() {
@@ -21,8 +19,8 @@ function App() {
                 <Route path='/' element={<Index />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/*' element={<Index />} />
-                <Route path='/list' element={<MatTable />} />
-                <Route path='/new' element={<NewMail />} />
+                <Route path='/list' element={<ArrivTable />} />
+                <Route path='/new' element={<Arrive />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/depart' element={<Depart />} />
                 <Route path='/departTable' element={<DepartTable />} />

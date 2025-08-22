@@ -4,7 +4,7 @@ import images from "../img/img.jpeg";
 import { FcHome, FcList } from "react-icons/fc";
 import { RiSave3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { resetStore } from "./actions";
+import { resetStore } from "../components/actions";
 
 export default function NavBar() {
   const config = process.env.REACT_APP_API_URL;
@@ -107,26 +107,17 @@ export default function NavBar() {
                   Home
                 </Link>
               </li>
-              <li className="text-white hover:text-indigo-200 text-sm font-medium">
-                <Link to="/list" className="flex">
-                  <FcList size="16" className=" mr-2 mt-0" /> Liste Arrivé
-                </Link>
-              </li>
-              <li className="text-white hover:text-indigo-200 text-sm font-medium">
-                <Link to="/departTable" className="flex">
-                  <FcList size="16" className=" mr-2 mt-0" /> Liste Départ
-                </Link>
-              </li>
+
               <li className="text-white hover:text-indigo-200 text-sm font-medium">
                 <Link to="/new" className="flex">
                   <RiSave3Fill size="16" color="white" className="mr-2 mt-0" />{" "}
-                  Enregistrer Arrivé
+                  Courrier Arrivé
                 </Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-sm font-medium">
                 <Link to="/depart" className="flex">
                   <RiSave3Fill size="16" color="white" className="mr-2 mt-0" />{" "}
-                  Enregistrer départ
+                  Courrier départ
                 </Link>
               </li>
             </ul>

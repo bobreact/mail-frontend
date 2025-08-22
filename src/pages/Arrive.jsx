@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import MatTable from "./MatTable";
+import MatTable from "../components/ArriveTable";
 import { useSelector, useDispatch } from "react-redux";
-import { AddNewMailArrive } from "./slices/ArriveSlice";
+import { AddNewMailArrive } from "../components/slices/ArriveSlice";
 
 export default function NewMail() {
   const userRef = useRef();
@@ -188,7 +188,7 @@ export default function NewMail() {
         >
           {errMsg}
         </p>
-        <h5 className="h-10 border-spacing-2 border-2 border-slate-500 bg-green-500 pl-2 pt-1.5 text-start hover:text-center text-base font-semibold uppercase text-white">
+        <h5 className="h-10 border-spacing-2 rounded-full border-2 border-slate-500 bg-green-500 pl-2 pt-1.5 text-start hover:text-center text-base font-semibold uppercase text-white">
           Nouveau courrier arrive
         </h5>
 

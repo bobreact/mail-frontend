@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import DepartTable from "./DepartTable";
+import DepartTable from "../components/DepartTable";
 import { useDispatch, useSelector } from "react-redux";
-import { AddNewMailDepart } from "./slices/DepartSlice";
+import { AddNewMailDepart } from "../components/slices/DepartSlice";
 export default function Depart() {
   const config = process.env.REACT_APP_API_URL;
   const userRef = useRef();

@@ -20,7 +20,7 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import axios from "axios";
 import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { ArriveList } from "../components/slices/ArriveSlice";
+import { ArriveList } from "./slices/ArriveSlice";
 
 function MatTable() {
   const config = process.env.REACT_APP_API_URL;
