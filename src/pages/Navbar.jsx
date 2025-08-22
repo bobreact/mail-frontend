@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetStore } from "../components/actions";
 
 export default function NavBar() {
-  const config = process.env.REACT_APP_API_URL;
+  const config = useSelector((state) => state.url.url);
   const dispatch = useDispatch();
   const [navbar, setNavbar] = useState(false);
   const navigate = useNavigate();

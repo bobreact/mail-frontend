@@ -23,7 +23,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { ArriveList } from "./slices/ArriveSlice";
 
 function MatTable() {
-  const config = process.env.REACT_APP_API_URL;
+  //const config = process.env.REACT_APP_API_URL;
+  const config = useSelector((state) => state.url.url);
+  console.log("config:", config);
   const [errMsg, setErrMsg] = useState("");
   const defaultMaterialTheme = createTheme();
   const [fichier, setFichier] = useState("");
@@ -115,7 +117,7 @@ function MatTable() {
         //setMail(response.data);
         dispatch(ArriveList(response.data));
 
-        console.log(response.data);
+      //  console.log(response.data);
       })
       .catch((Error) => {
         if (Error.response?.status === 403) {

@@ -5,14 +5,16 @@ import DepartTable from "../components/DepartTable";
 import { useDispatch, useSelector } from "react-redux";
 import { AddNewMailDepart } from "../components/slices/DepartSlice";
 export default function Depart() {
-  const config = process.env.REACT_APP_API_URL;
+  //const config = process.env.REACT_APP_API_URL;
+  const config = useSelector((state) => state.url.url);
+
   const userRef = useRef();
   const errRef = useRef();
 
   const structure = useSelector((state) => state.structure.structure);
   const token = useSelector((state) => state.token.token);
-  console.log('structure', structure);
-  console.log('token', token);
+//  console.log('structure', structure);
+//  console.log('token', token);
   const navigate = useNavigate();
   const [numDepart, setNumDepart] = useState("");
   const [dateDepart, setDateDepart] = useState("");
@@ -31,7 +33,7 @@ export default function Depart() {
   const [errMsg, setErrMsg] = useState("");
 
   const url = `${config}/mail/api/mail/depart/upload`;
-  console.log(url);
+//  console.log(url);
 
   useEffect(() => {
     window.scrollTo(0, 0);

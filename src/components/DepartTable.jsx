@@ -31,12 +31,12 @@ function DepartTable() {
   const [fichier, setFichier] = useState("");
   const dispatch = useDispatch();
 
-  const config = process.env.REACT_APP_API_URL;
+  const config = useSelector((state) => state.url.url);
   const token = useSelector((state) => state.token.token);
   const structure = useSelector((state) => state.structure.structure);
 
   const URL = `${config}/mail/api/mail/depart/download/${fichier}`;
-  console.log("url:", URL);
+  //console.log("url:", URL);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -117,7 +117,7 @@ function DepartTable() {
       .then((response) => {
         dispatch(DepartList(response.data));
         //setMail(response.data);
-        console.log(response.data);
+      //  console.log(response.data);
       })
       .catch((Error) => {
         if (Error.response?.status === 403) {
@@ -138,7 +138,7 @@ function DepartTable() {
   }, []);
 //var a = useSelector((state) => state.depart.mailDeparts);
 const mails = structuredClone(useSelector((state) => state.depart.mailDeparts));
-console.log("mail", mails);
+//console.log("mail", mails);
   const columns = [
     { title: "Numéro", field: "numDepart", align: "center" },
     { title: "Date Départ", field: "dateDepart", align: "center" },

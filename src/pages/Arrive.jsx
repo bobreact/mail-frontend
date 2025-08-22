@@ -8,7 +8,7 @@ import { AddNewMailArrive } from "../components/slices/ArriveSlice";
 export default function NewMail() {
   const userRef = useRef();
   const errRef = useRef();
-  const config = process.env.REACT_APP_API_URL;
+  const config = useSelector((state) => state.url.url);
   const token = useSelector((state) => state.token.token);
   const structure = useSelector((state) => state.structure.structure);
   const navigate = useNavigate();

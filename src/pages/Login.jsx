@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Structure } from "../components/slices/StructureSlice";
 import { Token } from "../components/slices/TokenSlice";
 import { User } from "../components/slices/UserSlice";
+import { Url } from "../components/slices/UrlSlice";
 
 const picture = new URL("../img/signin.jpg", import.meta.url).href;
 
@@ -15,9 +16,20 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const config = process.env.REACT_APP_API_URL;
+  //const config = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
 
+
+useEffect(() => {
+    axios
+      .get(`/configuration.json`, { cache: "force-cache" })
+      .then((response) => {
+        dispatch(Url(response.data.API_URL));
+       // console.log(response.data.API_URL);
+      });
+  }, []);
+ 
+const config = useSelector((state) => state.url.url);
   const LOGIN_URL = `${config}/mail/api/auth/login`;
   console.log("url", LOGIN_URL);
 
@@ -44,8 +56,8 @@ const Login = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(JSON.stringify(response?.data));
-      console.log(JSON.stringify(response));
+     // console.log(JSON.stringify(response?.data));
+      //console.log(JSON.stringify(response));
       const token = response?.data?.token;
       const refreshToken = response?.data?.refreshToken;
       const user = response?.data?.id;
