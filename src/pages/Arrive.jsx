@@ -188,7 +188,7 @@ export default function NewMail() {
         >
           {errMsg}
         </p>
-        <h5 className="h-10 border-spacing-2 rounded-full border-2 border-slate-500 bg-green-500 pl-2 pt-1.5 text-start hover:text-center text-base font-semibold uppercase text-white">
+        <h5 className="h-10 border-spacing-2 rounded-md border-2 border-slate-500 bg-green-500 pl-2 pt-1.5 text-start hover:text-center text-base font-semibold uppercase text-white">
           Nouveau courrier arrive
         </h5>
 
@@ -205,7 +205,7 @@ export default function NewMail() {
           ""
         )}
         <form
-          className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-2"
+          className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
           onSubmit={handleSubmit}
         >
           <div className="mb-2">
@@ -347,19 +347,18 @@ export default function NewMail() {
               onChange={handleChange}
               multiple
               required
-              className="h-8 block w-full text-sm text-slate-500
+              className="h-10 block w-full text-sm text-slate-500
                                     file:mr-4 file:py-2 file:px-4
                                     file:rounded-full file:border-0
                                     file:text-sm file:font-semibold
-                                    file:bg-violet-50 file:text-violet-700
-                                    hover:file:bg-violet-100 mt-5"
+                                    file:bg-violet-600 file:text-zinc-50
+                                    hover:file:bg-violet-400 mt-4 "
             />
           </div>
           <div className="mt-2">
             <button
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
-              type="submit"
-            >
+              className="w-full px-4 py-2 mt-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+              type="submit">
               Enregistrer
             </button>
           </div>

@@ -4,9 +4,8 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Url } from "../components/slices/UrlSlice";
-//import authHeader from "../services/auth-header";
+import { resetStore } from "../components/actions";
 
-//const config = process.env.REACT_APP_API_URL;
 const picture = new URL("../img/signup.jpg", import.meta.url).href;
 
 export const Register = () => {
@@ -88,6 +87,7 @@ const config = useSelector((state) => state.url.url);
       setUsername("");
       setEmail("");
       setPassword("");
+      dispatch(resetStore());
       navigate("/login", { replace: true });
     } catch (err) {
       console.log(err);
